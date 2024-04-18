@@ -7,9 +7,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Push @dev
+    env:
+      AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
     steps:
-      env:
-        AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
       - run: bun install drizzle-kit
