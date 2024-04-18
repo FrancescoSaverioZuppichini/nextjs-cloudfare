@@ -6,6 +6,7 @@ import {
 import { SQL, count } from "drizzle-orm";
 import { APIReponse, APIReponsePagination } from "./types";
 import { DrizzleD1Database } from "drizzle-orm/d1";
+import * as schema from "@/lib/db/schema";
 
 export function withPagination<T extends SQLiteSelect>(
   qb: T,
@@ -20,7 +21,7 @@ export function withPagination<T extends SQLiteSelect>(
 }
 
 export async function getPaginatedResponse<T>(
-  db: DrizzleD1Database,
+  db: DrizzleD1Database<typeof schema>,
   data: T[],
   table: SQLiteTable,
   cursor: number,
