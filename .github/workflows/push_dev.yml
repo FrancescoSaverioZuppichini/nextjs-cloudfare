@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Push @dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install drizzle-kit
+      - run: bun drizzle-kit generate:sqlite
+      - name: Migrate
+        uses: cloudflare/wrangler-action@v3.4.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: d1 migrations apply DB --env development
+          packageManager: bun
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3.4.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: bun pages:build && wrangler pages deploy  .vercel/output/static --env development
+          packageManager: bun
