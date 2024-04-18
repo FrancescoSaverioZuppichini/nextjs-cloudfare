@@ -12,6 +12,7 @@ jobs:
       - uses: oven-sh/setup-bun@v1
       - run: bun install drizzle-kit
       - run: bun drizzle-kit generate:sqlite
+      - run: bun pages:build
       - name: Migrate
         uses: cloudflare/wrangler-action@v3.4.1
         with:
@@ -22,5 +23,5 @@ jobs:
         uses: cloudflare/wrangler-action@v3.4.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: bun pages:build && wrangler pages deploy  .vercel/output/static --env development
+          command: pages deploy  .vercel/output/static --env development
           packageManager: bun
