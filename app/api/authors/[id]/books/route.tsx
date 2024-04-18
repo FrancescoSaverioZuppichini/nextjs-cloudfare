@@ -1,5 +1,4 @@
 import { drizzle } from "drizzle-orm/d1";
-import { asc, count, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import * as schema from "@/lib/db/schema";
 import { authors, books } from "@/lib/db/schema";
@@ -7,7 +6,9 @@ import { authors, books } from "@/lib/db/schema";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import { getPaginatedResponse } from "@/lib/db/utils";
 import { NextRequest } from "next/server";
+
 export const runtime = "edge";
+
 export async function GET(
   req: NextRequest,
   context: { params: { id: string } }
