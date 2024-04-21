@@ -5,14 +5,16 @@ import { drizzle } from "drizzle-orm/d1";
 
 // [TODO] @fra ugly!
 const db = drizzle(process.env.DB! as unknown as D1Database);
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: DrizzleAdapter(db),
   providers: [GitHub],
   session: {
     strategy: "jwt",
   },
-  // pages: {
-  //   signIn: "/login",
-  // },
+  callbacks: {
+    async signIn({ profile }) {
+      // called when user signIn
+      return true;
+    },
+  },
 });

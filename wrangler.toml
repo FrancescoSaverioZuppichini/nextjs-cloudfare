@@ -22,3 +22,9 @@ binding = "DB"
 database_name = "hono-cloudfare-d1-dev"
 database_id = "92293bdd-8fd1-4439-8cd8-6247898eb39a"
 migrations_dir = "drizzle/migrations"
+
+[vars]
+AUTH_SECRET = "wPHuAVv1a9imgHILtUSRhWwcaoLNU0TeznJzzqgxtrGd"
+# https://github.com/settings/developers api/auth/callback/github
+AUTH_GITHUB_ID = "f61f23ca342319e54350"
+AUTH_GITHUB_SECRET = "0c2f82fee28a672b73448bb2166749d636aa5e1d"
