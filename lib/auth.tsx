@@ -12,9 +12,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
   },
   callbacks: {
-    async signIn({ profile }) {
-      // called when user signIn
-      return true;
-    },
+    // https://authjs.dev/reference/core#callbacks
   },
 });
