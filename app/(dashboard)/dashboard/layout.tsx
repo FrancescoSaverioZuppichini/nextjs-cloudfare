@@ -2,6 +2,7 @@ import { MainNav } from "@/components/main-nav";
 import { UserAccountNav } from "@/components/user-account-nav";
 import { dashboardConfig } from "@/config/dashboard";
 import { auth } from "@/lib/auth";
+import { ModeToggle } from "@/providers/mode-toggle";
 import { redirect } from "next/navigation";
 
 export default async function HomeLayout({
@@ -18,13 +19,16 @@ export default async function HomeLayout({
       <header className="sticky top-0 z-40 border-b bg-background">
         <div className="container flex h-16 items-center justify-between py-4">
           <MainNav items={dashboardConfig.mainNav} />
-          <UserAccountNav
-            user={{
-              name: user.name,
-              image: user.image,
-              email: user.email,
-            }}
-          />
+          <div className="flex items-center gap-4">
+            <UserAccountNav
+              user={{
+                name: user.name,
+                image: user.image,
+                email: user.email,
+              }}
+            />
+            <ModeToggle />
+          </div>
         </div>
       </header>
       <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
