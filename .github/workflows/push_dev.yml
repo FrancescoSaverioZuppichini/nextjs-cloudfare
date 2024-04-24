@@ -19,7 +19,7 @@ jobs:
         uses: cloudflare/wrangler-action@v3.4.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: d1 migrations apply DB --env development
+          command: d1 migrations apply DB --env preview
           packageManager: bun
       - name: Deploy
         uses: cloudflare/wrangler-action@v3.4.1
