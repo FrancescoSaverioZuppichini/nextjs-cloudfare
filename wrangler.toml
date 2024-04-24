@@ -4,14 +4,14 @@ compatibility_date = "2024-04-05"
 compatibility_flags = ["nodejs_compat"]
 
 [env.development]
-vars = { ENVIRONMENT = "development" }
+vars = { ENVIRONMENT = "development", AUTH_SECRET = "wPHuAVv1a9imgHILtUSRhWwcaoLNU0TeznJzzqgxtrGd", AUTH_GITHUB_ID = "baf9c142317b5a5f7c4f", AUTH_GITHUB_SECRET = "aa05cbea57b577a10230999613d32daebb9c1834" }
 workers_dev = true
 d1_databases = [
     { binding = "DB", database_name = "hono-cloudfare-d1-dev", database_id = "92293bdd-8fd1-4439-8cd8-6247898eb39a", migrations_dir = "drizzle/migrations" },
 ]
 
 [env.production]
-vars = { ENVIRONMENT = "production" }
+vars = { ENVIRONMENT = "production", AUTH_SECRET = "wPHuAVv1a9imgHILtUSRhWwcaoLNU0TeznJzzqgxtrGd" }
 d1_databases = [
     { binding = "DB", database_name = "hono-cloudfare-d1-prod", database_id = "1cc972ec-81eb-4490-b4ca-ee498aed4e4d", migrations_dir = "drizzle/migrations" },
 ]
