@@ -3,17 +3,35 @@ import { z } from "zod";
 import { authors } from "@/lib/db/schema";
 
 import { getRequestContext } from "@cloudflare/next-on-pages";
+import { NextRequest, NextResponse } from "next/server";
+import { getPaginatedResponse } from "@/lib/db/utils";
 
+import * as schema from "@/lib/db/schema";
 export const runtime = "edge";
 
-export async function GET(req: Request) {
-  const db = drizzle(getRequestContext().env.DB);
-  const res = await db.select().from(authors).all();
-  return new Response(
-    JSON.stringify({
-      data: res,
-    }),
+export async function GET(req: NextRequest) {
+  const cursor = Number(req.nextUrl.searchParams.get("cursor")) || 0;
+  const pageSize = 2;
+  const db = drizzle(getRequestContext().env.DB, { schema });
+  const res = await db.query.authors.findMany({
+    where: (authors, { gt }) => gt(authors.id, cursor),
+    orderBy: (authors, { asc }) => asc(authors.id),
+    limit: pageSize,
+  });
+  if (!res)
+    return new Response(JSON.stringify({ message: "Not Found" }), {
+      status: 404,
+    });
+  const Authors = authors.$inferSelect;
+  const paginatedResponse = await getPaginatedResponse<typeof Authors>(
+    db,
+    res,
+    authors,
+    cursor,
+    pageSize,
+    req
   );
+  return NextResponse.json(paginatedResponse);
 }
 
 const AuthorsCreateSchema = z.object({

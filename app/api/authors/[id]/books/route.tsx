@@ -11,10 +11,10 @@ export const runtime = "edge";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } },
+  context: { params: { id: string } }
 ) {
   const authorId = context.params.id;
-  const cursor = Number(req.nextUrl.searchParams.get("query")) || 0;
+  const cursor = Number(req.nextUrl.searchParams.get("cursor")) || 0;
   const pageSize = 2;
 
   const db = drizzle(getRequestContext().env.DB, { schema });
@@ -37,7 +37,7 @@ export async function GET(
     books,
     cursor,
     pageSize,
-    req,
+    req
   );
   return new Response(JSON.stringify(paginatedResponse));
 }
