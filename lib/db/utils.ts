@@ -4,7 +4,7 @@ import {
   SQLiteTable,
 } from "drizzle-orm/sqlite-core";
 import { SQL, count } from "drizzle-orm";
-import { APIReponse, APIReponsePagination } from "./types";
+import { APIReponse, APIReponsePagination } from "@/types";
 import { DrizzleD1Database } from "drizzle-orm/d1";
 import * as schema from "@/lib/db/schema";
 

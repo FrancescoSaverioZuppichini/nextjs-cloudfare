@@ -7,15 +7,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPaginatedResponse } from "@/lib/db/utils";
 
 import * as schema from "@/lib/db/schema";
+import db from "@/lib/db/db";
 export const runtime = "edge";
 
 export async function GET(req: NextRequest) {
   const cursor = Number(req.nextUrl.searchParams.get("cursor")) || 0;
-  const pageSize = 2;
-  const db = drizzle(getRequestContext().env.DB, { schema });
+  const pageSize = 8;
+  // const db = drizzle(getRequestContext().env.DB, { schema });
   const res = await db.query.authors.findMany({
     where: (authors, { gt }) => gt(authors.id, cursor),
-    orderBy: (authors, { asc }) => asc(authors.id),
+    orderBy: (authors, { desc }) => desc(authors.id),
     limit: pageSize,
   });
   if (!res)
@@ -50,6 +51,7 @@ export async function POST(req: Request) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 });
     }
+    console.error(error);
     return new Response(null, { status: 500 });
   }
 }
