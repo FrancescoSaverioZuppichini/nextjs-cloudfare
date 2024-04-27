@@ -27,7 +27,7 @@ export async function getPaginatedResponse<T>(
   cursor: number,
   pageSize: number,
   req: Request
-): Promise<APIReponse<T>> {
+): Promise<APIReponse<T[]>> {
   const [{ count: totalItems }] = await db
     .select({ count: count() })
     .from(table);
