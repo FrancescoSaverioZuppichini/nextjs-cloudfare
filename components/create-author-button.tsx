@@ -33,7 +33,7 @@ export default function CreateAuthorButton() {
     },
   });
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const author = { id: crypto.randomUUID(), name };
     queryClient.setQueryData(["authors"], (old: APIReponse<Array<Author>>) => {
