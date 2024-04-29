@@ -8,7 +8,7 @@ import { useState } from "react";
 type Author = typeof authors.$inferSelect;
 
 async function createAuthor(
-  body: Omit<Author, "id">
+  body: Omit<Author, "id" | "createdAt">
 ): Promise<APIReponse<Author>> {
   const res = await fetch("/api/authors", {
     method: "POST",
@@ -25,23 +25,19 @@ export default function CreateAuthorButton() {
     mutationFn: createAuthor,
     onSuccess: (author) => {
       console.log("mutation success");
-      //   queryClient.invalidateQueries({ queryKey: ["authors"] });
-      queryClient.setQueryData(["authors"], (old: Array<Author>) => {
-        console.log("setQueryData", author, [author, ...old]);
-        return [author, ...old];
-      });
+      queryClient.invalidateQueries({ queryKey: ["authors"] });
     },
   });
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const author = { id: crypto.randomUUID(), name };
-    queryClient.setQueryData(["authors"], (old: APIReponse<Array<Author>>) => {
-      console.log(old, "old");
-      const newState = { ...old, ...{ data: [author, ...old.data] } };
-      return newState;
-    });
-    // mutate({ name });
+    // const author = { id: crypto.randomUUID(), name };
+    // queryClient.setQueryData(["authors"], (old: APIReponse<Array<Author>>) => {
+    //   console.log(old, "old");
+    //   const newState = { ...old, ...{ data: [author, ...old.data] } };
+    //   return newState;
+    // });
+    mutate({ name });
   };
 
   return (

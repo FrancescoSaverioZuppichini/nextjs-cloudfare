@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   // const db = drizzle(getRequestContext().env.DB, { schema });
   const res = await db.query.authors.findMany({
     where: (authors, { gt }) => gt(authors.id, cursor),
-    orderBy: (authors, { desc }) => desc(authors.id),
+    orderBy: (authors, { desc }) => desc(authors.createdAt),
     limit: pageSize,
   });
   if (!res)

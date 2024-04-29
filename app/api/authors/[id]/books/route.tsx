@@ -22,7 +22,7 @@ export async function GET(
   const res = await db.query.books.findMany({
     where: (books, { eq, gt }) =>
       eq(books.authorId, Number(authorId)) && gt(books.id, cursor),
-    orderBy: (books, { asc }) => asc(books.id),
+    orderBy: (books, { asc }) => asc(books.createdAt),
     limit: pageSize,
   });
 

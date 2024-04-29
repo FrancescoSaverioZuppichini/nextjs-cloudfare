@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   integer,
   sqliteTable,
@@ -36,7 +36,7 @@ export const accounts = sqliteTable(
     compoundKey: primaryKey({
       columns: [account.provider, account.providerAccountId],
     }),
-  }),
+  })
 );
 
 export const sessions = sqliteTable("session", {
@@ -56,11 +56,14 @@ export const verificationTokens = sqliteTable(
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  }),
+  })
 );
 export const authors = sqliteTable("authors", {
   id: integer("id").primaryKey(),
   name: text("name", { length: 256 }).unique(),
+  createdAt: text("created_at")
+    .notNull()
+    .default(sql`(current_timestamp)`),
 });
 
 export const authorsRelations = relations(authors, ({ many }) => ({
@@ -70,6 +73,9 @@ export const authorsRelations = relations(authors, ({ many }) => ({
 export const books = sqliteTable("books", {
   id: integer("id").primaryKey(),
   title: text("title", { length: 256 }).unique(),
+  createdAt: text("created_at")
+    .notNull()
+    .default(sql`(current_timestamp)`),
   authorId: integer("author_id").references(() => authors.id, {
     onDelete: "cascade",
   }),
