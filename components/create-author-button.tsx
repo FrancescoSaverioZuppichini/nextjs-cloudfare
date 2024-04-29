@@ -1,54 +1,41 @@
 "use client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button } from "./ui/button";
-import { authors } from "@/lib/db/schema";
-import { APIReponse } from "@/types";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import CreateAuthorForm from "./create-author-form";
 import { useState } from "react";
 
-type Author = typeof authors.$inferSelect;
-
-async function createAuthor(
-  body: Omit<Author, "id" | "createdAt">
-): Promise<APIReponse<Author>> {
-  const res = await fetch("/api/authors", {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers: { "Content-Type": "application/json" },
-  });
-  return res.json();
-}
 export default function CreateAuthorButton() {
-  const queryClient = useQueryClient();
-  const [name, setName] = useState("");
-  const { mutate } = useMutation({
-    mutationKey: ["authors"],
-    mutationFn: createAuthor,
-    onSuccess: (author) => {
-      console.log("mutation success");
-      queryClient.invalidateQueries({ queryKey: ["authors"] });
-    },
-  });
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // const author = { id: crypto.randomUUID(), name };
-    // queryClient.setQueryData(["authors"], (old: APIReponse<Array<Author>>) => {
-    //   console.log(old, "old");
-    //   const newState = { ...old, ...{ data: [author, ...old.data] } };
-    //   return newState;
-    // });
-    mutate({ name });
-  };
-
+  const [open, setOpen] = useState(false);
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <br />
-      <button type="submit">Create Author</button>
-    </form>
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
+        <Button>New Author</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Create a New Author</AlertDialogTitle>
+          <AlertDialogDescription>
+            <CreateAuthorForm
+              onSuccess={() => setOpen(false)}
+              onAbort={() => setOpen(false)}
+            />
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        {/* <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Continue</AlertDialogAction>
+        </AlertDialogFooter> */}
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
