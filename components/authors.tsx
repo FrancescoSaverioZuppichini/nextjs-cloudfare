@@ -3,6 +3,8 @@
 import { authors } from "@/lib/db/schema";
 import { APIReponse } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+import { DataTable } from "./data-table";
+import { columns } from "@/app/api/authors/columns";
 
 async function getAuthors(): Promise<
   APIReponse<Array<typeof authors.$inferSelect>>
@@ -17,19 +19,10 @@ export default function Authors() {
     queryFn: getAuthors,
   });
 
-  console.log(data);
-
   return (
     <div className="grid gap-2">
       {isLoading && <p>Loading</p>}
-      <ul>
-        {data &&
-          data.data.map((el) => (
-            <li key={el.id}>
-              <p>{el.name || "unknown"}</p>
-            </li>
-          ))}
-      </ul>
+      {data && <DataTable columns={columns} data={data.data} />}
     </div>
   );
 }

@@ -12,7 +12,7 @@ export function withPagination<T extends SQLiteSelect>(
   qb: T,
   orderByColumn: SQLiteColumn | SQL,
   page = 1,
-  pageSize = 8
+  pageSize = 8,
 ) {
   return qb
     .orderBy(orderByColumn)
@@ -26,7 +26,7 @@ export async function getPaginatedResponse<T>(
   table: SQLiteTable,
   cursor: number,
   pageSize: number,
-  req: Request
+  req: Request,
 ): Promise<APIReponse<T[]>> {
   const [{ count: totalItems }] = await db
     .select({ count: count() })

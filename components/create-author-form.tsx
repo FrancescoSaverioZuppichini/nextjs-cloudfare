@@ -22,7 +22,7 @@ import { Loader2 } from "lucide-react";
 type Author = typeof authors.$inferSelect;
 
 async function createAuthor(
-  body: z.infer<typeof AuthorsCreateSchema>
+  body: z.infer<typeof AuthorsCreateSchema>,
 ): Promise<APIReponse<Author>> {
   const res = await fetch("/api/authors", {
     method: "POST",

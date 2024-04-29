@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     authors,
     cursor,
     pageSize,
-    req
+    req,
   );
   return NextResponse.json(paginatedResponse);
 }
