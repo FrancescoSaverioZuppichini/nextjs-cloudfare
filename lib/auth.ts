@@ -15,10 +15,3 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // https://authjs.dev/reference/core#callbacks
   },
 });
-
-export async function getCurrentUser(): Promise<User | null> {
-  const session = await auth();
-  if (!session) return null;
-  if (!session.user) return null;
-  return session.user;
-}
