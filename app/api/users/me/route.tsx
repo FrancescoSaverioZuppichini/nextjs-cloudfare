@@ -16,7 +16,7 @@ export async function PATCH(req: Request) {
     const schema = UsersUpdateSchema.parse(body);
     const db = drizzle(getRequestContext().env.DB);
     await db.update(users).set(schema).where(eq(users.id, user.id!));
-    return new Response(JSON.stringify(user), { status: 200 });
+    return new Response(JSON.stringify({ data: user }), { status: 200 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 });

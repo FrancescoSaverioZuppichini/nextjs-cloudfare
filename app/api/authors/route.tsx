@@ -43,7 +43,7 @@ export async function POST(req: Request) {
 
     const db = drizzle(getRequestContext().env.DB);
     const [newAuthor] = await db.insert(authors).values(schema).returning();
-    return new Response(JSON.stringify(newAuthor), { status: 201 });
+    return new Response(JSON.stringify({ data: newAuthor }), { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 });

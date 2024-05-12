@@ -1,6 +1,6 @@
 "use client";
 import { authors } from "@/lib/db/schema";
-import { APIResponse } from "@/types";
+import { APIResources } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";

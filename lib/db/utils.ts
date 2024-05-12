@@ -4,7 +4,7 @@ import {
   SQLiteTable,
 } from "drizzle-orm/sqlite-core";
 import { SQL, count } from "drizzle-orm";
-import { APIResponse, APIResponsePagination } from "@/types";
+import { APIResources, APIResourcesPagination } from "@/types";
 import { DrizzleD1Database } from "drizzle-orm/d1";
 import * as schema from "@/lib/db/schema";
 
@@ -27,7 +27,7 @@ export async function getPaginatedResponse<T>(
   cursor: number,
   pageSize: number,
   req: Request
-): Promise<APIResponse<T[]>> {
+): Promise<APIResources<T[]>> {
   const [{ count: totalItems }] = await db
     .select({ count: count() })
     .from(table);

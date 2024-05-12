@@ -44,26 +44,30 @@ export type DashboardConfig = {
   sidebarNav: SidebarNavItem[];
 };
 
-export interface APIResponsePagination {
+export interface APIResourcesPagination {
   cursor: number;
   nextCursor: number;
   totalPages: number;
   totalItems: number;
 }
 
-export interface APIResponseLinks {
+export interface APIResourcesLinks {
   prev: string | null;
   next: string | null;
   first: string;
   last: string;
 }
 
-export interface APIResponseMeta {
-  pagination: APIResponsePagination;
-  links: APIResponseLinks;
+export interface APIResourcesMeta {
+  pagination: APIResourcesPagination;
+  links: APIResourcesLinks;
 }
 
-export interface APIResponse<T> {
+export interface APIResources<T> {
+  data: T[];
+  meta: APIResourcesMeta;
+}
+
+export interface APIResource<T> {
   data: T;
-  meta: APIResponseMeta;
 }

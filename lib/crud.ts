@@ -1,14 +1,14 @@
 import { z } from "zod";
 import { authors, users } from "./db/schema";
 import { AuthorsCreateSchema, UsersUpdateSchema } from "./schemas";
-import { APIResponse } from "@/types";
+import { APIResource, APIResources } from "@/types";
 
 export type Author = typeof authors.$inferSelect;
 export type User = typeof users.$inferSelect;
 
 export async function createAuthor(
   body: z.infer<typeof AuthorsCreateSchema>
-): Promise<APIResponse<Author>> {
+): Promise<APIResource<Author>> {
   const res = await fetch("/api/authors", {
     method: "POST",
     body: JSON.stringify(body),
@@ -19,7 +19,7 @@ export async function createAuthor(
 
 export async function updateMe(
   body: z.infer<typeof UsersUpdateSchema>
-): Promise<APIResponse<Author>> {
+): Promise<APIResource<User>> {
   const res = await fetch(`/api/users/me`, {
     method: "PATCH",
     body: JSON.stringify(body),
