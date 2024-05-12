@@ -5,7 +5,7 @@ export function SignIn() {
   return (
     <button
       onClick={() =>
-        signIn("github", { redirect: false, callbackUrl: "/dashboard" })
+        signIn("github", { redirect: false, callbackUrl: "/home" })
       }
     >
       Sign In
