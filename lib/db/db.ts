@@ -8,12 +8,15 @@ declare global {
   var cachedDb: DrizzleD1Database<typeof schema>;
 }
 
+const DB = process.env.DB! as unknown as D1Database;
+
 let db: DrizzleD1Database<typeof schema>;
 if (process.env.NODE_ENV === "production") {
-  db = drizzle(process.env.DB! as unknown as D1Database, { schema });
+  db = drizzle(DB, { schema });
 } else {
   if (!global.cachedDb) {
-    global.cachedDb = drizzle(process.env.DB! as unknown as D1Database, {
+    console.log(DB, "DB");
+    global.cachedDb = drizzle(DB, {
       schema,
     });
   }

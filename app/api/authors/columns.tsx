@@ -16,7 +16,9 @@ export const columns: ColumnDef<typeof authors.$inferSelect>[] = [
     accessorKey: "id",
     header: "id",
     cell: ({ cell }) => {
-      return <pre className="text-thin text-sm">{cell.getValue()}</pre>;
+      return (
+        <pre className="text-thin text-sm">{cell.getValue() as string}</pre>
+      );
     },
   },
   {

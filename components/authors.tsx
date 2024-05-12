@@ -1,13 +1,13 @@
 "use client";
 
 import { authors } from "@/lib/db/schema";
-import { APIReponse } from "@/types";
+import { APIResponse } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "./data-table";
 import { columns } from "@/app/api/authors/columns";
 
 async function getAuthors(): Promise<
-  APIReponse<Array<typeof authors.$inferSelect>>
+  APIResponse<Array<typeof authors.$inferSelect>>
 > {
   const res = await fetch("/api/authors");
   return res.json();

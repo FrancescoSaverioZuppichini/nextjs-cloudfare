@@ -1,12 +1,12 @@
 "use client";
 import { authors } from "@/lib/db/schema";
-import { APIReponse } from "@/types";
+import { APIResponse } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { AuthorsCreateSchema } from "@/lib/schema";
+import { AuthorsCreateSchema } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,18 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
-type Author = typeof authors.$inferSelect;
-
-async function createAuthor(
-  body: z.infer<typeof AuthorsCreateSchema>,
-): Promise<APIReponse<Author>> {
-  const res = await fetch("/api/authors", {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers: { "Content-Type": "application/json" },
-  });
-  return res.json();
-}
+import { createAuthor } from "@/lib/crud";
 
 interface CreateAuthorFormProps {
   onSuccess: () => void;

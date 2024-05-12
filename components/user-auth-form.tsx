@@ -11,7 +11,7 @@ export default function UserAuthForm() {
       variant={"outline"}
       onClick={() => {
         setGitHubLoading(true);
-        signIn("github", { redirect: false, callbackUrl: "/dashboard" });
+        signIn("github", { redirect: false, callbackUrl: "/home" });
       }}
       isLoading={isGitHubLoading}
     >

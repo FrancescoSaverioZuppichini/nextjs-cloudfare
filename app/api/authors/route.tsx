@@ -8,7 +8,7 @@ import { getPaginatedResponse } from "@/lib/db/utils";
 
 import * as schema from "@/lib/db/schema";
 import db from "@/lib/db/db";
-import { AuthorsCreateSchema } from "@/lib/schema";
+import { AuthorsCreateSchema } from "@/lib/schemas";
 export const runtime = "edge";
 
 export async function GET(req: NextRequest) {

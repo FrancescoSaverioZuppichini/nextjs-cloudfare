@@ -1,3 +1,9 @@
+import { icons } from "lucide-react";
+
+interface CloudflareEnv {
+  DB: D1Database;
+}
+
 export type NavItem = {
   title: string;
   href: string;
@@ -10,7 +16,7 @@ export type SidebarNavItem = {
   title: string;
   disabled?: boolean;
   external?: boolean;
-  icon?: keyof typeof Icons;
+  icon?: keyof typeof icons;
 } & (
   | {
       href: string;
@@ -38,26 +44,26 @@ export type DashboardConfig = {
   sidebarNav: SidebarNavItem[];
 };
 
-export interface APIReponsePagination {
+export interface APIResponsePagination {
   cursor: number;
   nextCursor: number;
   totalPages: number;
   totalItems: number;
 }
 
-export interface APIReponseLinks {
+export interface APIResponseLinks {
   prev: string | null;
   next: string | null;
   first: string;
   last: string;
 }
 
-export interface APIReponseMeta {
-  pagination: APIReponsePagination;
-  links: APIReponseLinks;
+export interface APIResponseMeta {
+  pagination: APIResponsePagination;
+  links: APIResponseLinks;
 }
 
-export interface APIReponse<T> {
+export interface APIResponse<T> {
   data: T;
-  meta: APIReponseMeta;
+  meta: APIResponseMeta;
 }
