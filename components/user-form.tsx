@@ -19,9 +19,12 @@ import { useMutation } from "@tanstack/react-query";
 import { updateMe } from "@/lib/crud";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useToast } from "./ui/use-toast";
 
 export function UserForm({ user }: { user: User }) {
   const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof UsersUpdateSchema>>({
     defaultValues: { name: user.name || "" },
     resolver: zodResolver(UsersUpdateSchema),
@@ -32,6 +35,10 @@ export function UserForm({ user }: { user: User }) {
     mutationFn: updateMe,
     onSuccess: (data) => {
       router.refresh();
+      toast({
+        title: "Settings: Update",
+        description: "Settings updated successfully!",
+      });
     },
   });
 
