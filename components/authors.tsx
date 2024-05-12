@@ -7,7 +7,7 @@ import { DataTable } from "./data-table";
 import { columns } from "@/app/api/authors/columns";
 
 async function getAuthors(): Promise<
-  APIResources<Array<typeof authors.$inferSelect>>
+  APIResources<typeof authors.$inferSelect>
 > {
   const res = await fetch("/api/authors");
   return res.json();
