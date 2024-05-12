@@ -28,6 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const dbUser = await db.query.users.findFirst({
         where: eq(users.email, token.email!),
       });
+      console.log(dbUser);
 
       if (!dbUser) {
         if (user) {
