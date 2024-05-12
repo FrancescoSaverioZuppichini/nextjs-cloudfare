@@ -1,6 +1,5 @@
-import "@/styles/globals.css";
 import { Inter as FontSans } from "next/font/google";
-
+import "./globals.css";
 import { cn } from "@/lib/utils";
 import Providers from "@/providers/providers";
 
@@ -20,7 +19,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
+          fontSans.variable
         )}
       >
         <Providers>{children}</Providers>

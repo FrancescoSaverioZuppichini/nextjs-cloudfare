@@ -14,7 +14,7 @@ export const runtime = "edge";
 export async function GET(req: NextRequest) {
   const cursor = Number(req.nextUrl.searchParams.get("cursor")) || 0;
   const pageSize = 8;
-  // const db = drizzle(getRequestContext().env.DB, { schema });
+
   const res = await db.query.authors.findMany({
     where: (authors, { gt }) => gt(authors.id, cursor),
     orderBy: (authors, { desc }) => desc(authors.createdAt),
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     authors,
     cursor,
     pageSize,
-    req,
+    req
   );
   return NextResponse.json(paginatedResponse);
 }
