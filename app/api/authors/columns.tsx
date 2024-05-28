@@ -11,7 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-export const columns: ColumnDef<typeof authors.$inferSelect>[] = [
+import { Author } from "@/lib/crud";
+export const columns: ColumnDef<Author>[] = [
   {
     accessorKey: "id",
     header: "id",

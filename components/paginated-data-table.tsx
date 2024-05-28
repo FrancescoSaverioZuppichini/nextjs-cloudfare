@@ -17,15 +17,15 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 
-interface DataTableProps<TData, TValue> {
+interface PaginatedDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function PaginatedDataTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+}: PaginatedDataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,

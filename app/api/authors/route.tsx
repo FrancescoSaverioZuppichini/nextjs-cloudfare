@@ -8,32 +8,31 @@ import { getPaginatedResponse } from "@/lib/db/utils";
 
 import * as schema from "@/lib/db/schema";
 import db from "@/lib/db/db";
-import { AuthorsCreateSchema } from "@/lib/schemas";
+import { AuthorsCreateSchema, CursorSchema } from "@/lib/schemas";
+import { Author } from "@/lib/crud";
+import { InvalidCursor, decodeCursor } from "@/lib/cursor";
 export const runtime = "edge";
 
-export async function GET(req: NextRequest) {
-  const cursor = Number(req.nextUrl.searchParams.get("cursor")) || 0;
-  const pageSize = 8;
+const pageSize = Number(process.env.PAGE_SIZE) || 8;
 
-  const res = await db.query.authors.findMany({
-    where: (authors, { gt }) => gt(authors.id, cursor),
-    orderBy: (authors, { desc }) => desc(authors.createdAt),
-    limit: pageSize,
-  });
-  if (!res)
-    return new Response(JSON.stringify({ message: "Not Found" }), {
-      status: 404,
+export async function GET(req: NextRequest) {
+  try {
+    const cursor = decodeCursor(req.nextUrl.searchParams.get("cursor"));
+    const res = await db.query.authors.findMany({
+      where: (authors, { lt }) =>
+        cursor ? lt(authors.id, cursor.id) : undefined,
+      orderBy: (authors, { desc }) => desc(authors.createdAt),
+      limit: pageSize,
     });
-  const Authors = authors.$inferSelect;
-  const paginatedResponse = await getPaginatedResponse<typeof Authors>(
-    db,
-    res,
-    authors,
-    cursor,
-    pageSize,
-    req
-  );
-  return NextResponse.json(paginatedResponse);
+    if (!res)
+      return NextResponse.json({ message: "Not Found" }, { status: 404 });
+    const paginatedResponse = await getPaginatedResponse<Author>(res);
+    return NextResponse.json(paginatedResponse);
+  } catch (error) {
+    if (error instanceof InvalidCursor)
+      return NextResponse.json({ message: "Invalid cursor" }, { status: 400 });
+    else return NextResponse.json({ message: "Error" }, { status: 500 });
+  }
 }
 
 export async function POST(req: Request) {

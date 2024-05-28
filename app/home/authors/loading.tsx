@@ -9,9 +9,5 @@ export default async function Home() {
   if (!session) return redirect("/register");
   if (!session.user) return null;
 
-  return (
-    <div className="container h-full flex flex-col gap-4">
-      <h1>Welcome {session.user.name}</h1>
-    </div>
-  );
+  return <DataTableSkeleton nColumns={3} nRows={5} />;
 }

@@ -1,28 +1,46 @@
 "use client";
 
 import { authors } from "@/lib/db/schema";
-import { APIResources } from "@/types";
-import { useQuery } from "@tanstack/react-query";
+import { APIResources, APIResourcesRequest } from "@/types";
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useQuery,
+} from "@tanstack/react-query";
 import { DataTable } from "./data-table";
 import { columns } from "@/app/api/authors/columns";
+import { Author, getAuthors } from "@/lib/crud";
+import React from "react";
 
-async function getAuthors(): Promise<
-  APIResources<typeof authors.$inferSelect>
-> {
-  const res = await fetch("/api/authors");
-  return res.json();
+interface AuthorsProps {
+  initialData?: APIResources<Author>;
 }
 
-export default function Authors() {
-  const { data, isLoading } = useQuery({
+export default function Authors({ initialData }: AuthorsProps) {
+  const { data, isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery<
+    APIResources<Author>
+  >({
     queryKey: ["authors"],
-    queryFn: getAuthors,
+    queryFn: async ({ pageParam }) =>
+      await getAuthors(pageParam as APIResourcesRequest),
+    initialPageParam: { cursor: "" },
+    getNextPageParam: (lastPage, pages) => ({
+      cursor: lastPage.meta.pagination.nextCursor,
+    }),
+    placeholderData: keepPreviousData,
   });
+
+  console.log(hasNextPage);
+  const flatData = React.useMemo(
+    () => data?.pages?.flatMap((page) => page.data) ?? [],
+    [data]
+  );
 
   return (
     <div className="grid gap-2">
       {isLoading && <p>Loading</p>}
-      {data && <DataTable columns={columns} data={data.data} />}
+      <button onClick={() => fetchNextPage()}>next</button>
+      {data && <DataTable columns={columns} data={flatData} />}
     </div>
   );
 }

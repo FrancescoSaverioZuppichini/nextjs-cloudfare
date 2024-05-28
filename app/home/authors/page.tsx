@@ -5,13 +5,18 @@ import { redirect } from "next/navigation";
 
 export const runtime = "edge";
 
-export default async function Home() {
+export default async function AuthorsPage() {
   const user = await getCurrentUser();
   if (!user) return redirect("/login");
 
   return (
     <div className="container h-full flex flex-col gap-4">
-      <h1>Welcome {user.name}</h1>
+      <Authors />
+      <div className="flex sm:justify-end">
+        <div>
+          <CreateAuthorButton />
+        </div>
+      </div>
     </div>
   );
 }
